@@ -1,2 +1,3 @@
 # Algorithm
-Prepare for Coding test 
+
+## Prepare for Coding test
