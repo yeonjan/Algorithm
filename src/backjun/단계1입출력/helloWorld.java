@@ -1,4 +1,4 @@
-package backjun.part0;
+package backjun.단계1입출력;
 
 public class helloWorld {
         public static void main(String[] args) {
