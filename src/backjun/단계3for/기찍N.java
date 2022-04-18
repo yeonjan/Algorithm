@@ -1,4 +1,4 @@
-package backjun.단계3반복문;
+package backjun.단계3for;
 
 import java.io.*;
 

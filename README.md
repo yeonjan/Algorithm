@@ -4,10 +4,19 @@
 
 # 목차
 
-- #### [패킹(packing)과 언패킹(unpacking)](#패킹과-언패킹)
-
+- #### [equals()와 ==의 차이점](#equals-----------)
 <br/><br/>
 
 ---
 
-## 패킹(packing)과 언패킹(unpacking)
+## equals()와 ==의 차이점
+- equals()는 대상의 내용 자체를 비교
+- ==은 주소값을 비교
+
+![title](img.png)
+```java
+System.out.println(a.equals(b)); //true
+System.out.println(a==b); //true
+System.out.println(a==c); //false
+System.out.println(a.equals(c)); //true
+```

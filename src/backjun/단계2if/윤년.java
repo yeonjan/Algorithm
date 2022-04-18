@@ -1,4 +1,4 @@
-package backjun.단계2조건문;
+package backjun.단계2if;
 
 import java.io.BufferedReader;
 import java.io.IOException;
