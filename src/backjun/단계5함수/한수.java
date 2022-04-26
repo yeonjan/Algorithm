@@ -9,8 +9,7 @@ public class 한수 {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
         int count = 0;
-
-        for (int i = 1; i <= N; ++i) {
+        for (int i = 1; i < N + 1; ++i) {
             if (is_hansoo(i)) count++;
         }
         System.out.println(count);
@@ -31,6 +30,7 @@ public class 한수 {
                 if (d1 != d2) return false;
             }
         }
+
         return true;
     }
 }
