@@ -33,6 +33,5 @@ public class 단어공부 {
         if (!is_duplicate) {
             System.out.println((char) (idx + 'A'));
         } else System.out.println("?");
-
     }
 }
