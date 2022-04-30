@@ -13,7 +13,6 @@ public class 부녀회장1 {
             int n = Integer.parseInt(br.readLine());
 
             System.out.println(howMany(k, n));
-
         }
     }
     public static int howMany(int k, int n) {
