@@ -14,9 +14,7 @@ public class 부녀회장1 {
 
             System.out.println(howMany(k, n));
         }
-
     }
-
     public static int howMany(int k, int n) {
         int people = 0;
         if (k == 0) {
@@ -27,6 +25,5 @@ public class 부녀회장1 {
             }
             return people;
         }
-
     }
 }
