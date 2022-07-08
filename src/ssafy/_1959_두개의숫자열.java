@@ -3,7 +3,6 @@ package ssafy;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class _1959_두개의숫자열 {
