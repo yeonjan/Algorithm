@@ -1,4 +1,4 @@
-package ssafy;
+package ssafy.사전학습;
 
 import java.io.BufferedReader;
 import java.io.IOException;

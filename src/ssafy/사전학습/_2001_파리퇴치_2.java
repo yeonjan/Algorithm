@@ -1,4 +1,4 @@
-package ssafy;
+package ssafy.사전학습;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
-public class _2001_파리퇴치 {
+public class _2001_파리퇴치_2 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
@@ -26,28 +26,22 @@ public class _2001_파리퇴치 {
                 }
             }
 
-            int[][] compress = new int[n][n - m + 1];
-            for (int h = 0; h < n; h++) {
-                for (int w = 0; w < n - m + 1; w++) {
-                    int sum = 0;
-                    for (int i = w; i < w + m; i++) {
-                        sum += fly[h][i];
-                    }
-                    compress[h][w] = sum;
-                }
-            }
+            int[] max = new int[size*size];
 
-            int result = 0;
-            for (int w = 0; w < n-m+1; w++) {
-                for (int h = 0; h < n - m + 1; h++) {
-                    int sum = 0;
-                    for (int i = h; i < h + m; i++) {
-                        sum += compress[i][w];
+            int count = 0;
+            for (int H = 0; H < size; H++) {
+                for (int W = 0; W < size; W++) {
+                    for (int h = 0; h < m; h++) {
+                        for (int w = 0; w < m; w++) {
+                            max[count] = max[count] + fly[H+h][W+w];
+                        }
                     }
-                    result = Math.max(sum, result);
+                    count++;
                 }
             }
-            sb.append("#" + t + " " + result + "\n");
+            Arrays.sort(max);
+
+            sb.append("#" + t + " " + max[max.length-1] + "\n");
         }
         System.out.println(sb);
     }
