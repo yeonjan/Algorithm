@@ -10,7 +10,6 @@ public class Main_1260_DFSBFS {
     static boolean[] visit;
     static int[] selected;
     static List<Integer>[] edge;
-    static Queue<Integer> queue = new LinkedList<>();
     static StringBuilder sb = new StringBuilder();
 
     public static void main(String[] args) throws IOException {
@@ -43,12 +42,7 @@ public class Main_1260_DFSBFS {
         sb.append("\n");
 
         visit = new boolean[N + 1];
-        queue.add(V);
-        int cnt = 0;
-        visit[V] = true;
-        while (!queue.isEmpty()) {
-            bfs(queue.poll(), visit, cnt++);
-        }
+        bfs();
         sb.append("\n");
 
         System.out.println(sb.toString());
@@ -66,14 +60,21 @@ public class Main_1260_DFSBFS {
         }
     }
 
-    public static void bfs(int Node, boolean[] visit, int cnt) {
-        sb.append(Node + " ");
+    public static void bfs() {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(V);
+        visit[V] = true;
 
-        for (int e : edge[Node]) {
-            if (!visit[e]) {
-                visit[e] = true;
-                queue.add(e);
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            sb.append(node + " ");
+            for (int e : edge[node]) {
+                if (!visit[e]) {
+                    visit[e] = true;
+                    queue.add(e);
+                }
             }
         }
+
     }
 }
