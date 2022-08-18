@@ -7,11 +7,21 @@ import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public class Main_2573_빙산 {
-    static int N, M, cnt, icebergCnt, day;
+    static int N, M, cnt, icebergCnt, year;
     static int[][] map;
     static boolean[][] isIceberg, visit;
     static int[] deltaX = {0, 1, 0, -1};
     static int[] deltaY = {-1, 0, 1, 0};
+
+    static class Point {
+        int x;
+        int y;
+
+        public Point(int y, int x) {
+            this.x = x;
+            this.y = y;
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -21,6 +31,7 @@ public class Main_2573_빙산 {
         M = Integer.parseInt(st.nextToken());
         map = new int[N][M];
         isIceberg = new boolean[N][M];
+
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < M; j++) {
@@ -31,11 +42,16 @@ public class Main_2573_빙산 {
                 }
             }
         }
+
+        //빙산의 수가 다 녹을 때 까지 진행
         boolean isDivided = false;
         while (icebergCnt > 0) {
-            visit = new boolean[N][M];
-            cnt = 0;
+
             oneYearLater();
+
+            //bfs를 이용해 분리 되었는지 확인
+            cnt = 0; //덩어리의 수
+            visit = new boolean[N][M];
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < M; j++) {
                     if (isIceberg[i][j] && !visit[i][j]) {
@@ -43,12 +59,13 @@ public class Main_2573_빙산 {
                     }
                 }
             }
+            //덩어리가 두개 이상이면 반복을 종료
             if (cnt > 1) {
                 isDivided = true;
                 break;
             }
         }
-        System.out.println(isDivided ? day : 0);
+        System.out.println(isDivided ? year : 0);
 
     }
 
@@ -59,6 +76,7 @@ public class Main_2573_빙산 {
 
         while (!queue.isEmpty()) {
             Point point = queue.poll();
+            //연결된 빙산이 있는지 탐색
             for (int i = 0; i < 4; i++) {
                 int dx = point.x + deltaX[i];
                 int dy = point.y + deltaY[i];
@@ -74,7 +92,8 @@ public class Main_2573_빙산 {
     }
 
     public static void oneYearLater() {
-        day++;
+        year++;
+        //빙산이면 인접한 바다의 수 만큼 높이 줄이기
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
                 if (isIceberg[i][j]) {
@@ -82,6 +101,7 @@ public class Main_2573_빙산 {
                 }
             }
         }
+        //녹은 빙산 체크
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
                 if (map[i][j] <= 0 && isIceberg[i][j]) {
@@ -93,6 +113,7 @@ public class Main_2573_빙산 {
         }
     }
 
+   //인접한 바다의 수 계산
     public static int countSea(int y, int x) {
         int cnt = 0;
         for (int i = 0; i < 4; i++) {
@@ -104,12 +125,3 @@ public class Main_2573_빙산 {
     }
 }
 
-class Point {
-    int x;
-    int y;
-
-    public Point(int y, int x) {
-        this.x = x;
-        this.y = y;
-    }
-}
