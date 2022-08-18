@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-public class Main_1260_DFSBFS {
+public class Main_1260_DFS와BFS {
     static int N, M, V;
     static boolean[] visit;
     static int[] selected;
