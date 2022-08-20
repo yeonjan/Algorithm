@@ -39,7 +39,7 @@ public class NQueen {
         for (int i = 0; i < row; i++) {
             if (arr[row] == arr[i]) {
                 return false;
-            } else if (Math.abs(row - i) == Math.abs(arr[row] - arr[i])) {
+            } else if (Math.abs(row - i) == Math.abs(arr[row] - arr[i])) { //대각선에 있으면//가로세로 이동량 같음
                 return false;
             }
 
