@@ -6,24 +6,26 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main_15591_mootube_silver {
-    static int n,q,k,v,ans;
-    static List<int[]>[]adjlist;
-    static boolean[]visited;
+    static int n, q, k, v, ans;
+    static List<int[]>[] adjlist;
+    static boolean[] visited;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        n= Integer.parseInt(st.nextToken());
-        q= Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
+        q = Integer.parseInt(st.nextToken());
 
-        visited= new boolean[n+ 1];
-        adjlist= new ArrayList[n+ 1];
-        for (int i = 1; i <=n; i++) {
+        visited = new boolean[n + 1];
+        adjlist = new ArrayList[n + 1];
+        for (int i = 1; i <= n; i++) {
             adjlist[i] = new ArrayList<>();
         }
 
-        for (int i = 0; i <n- 1; i++) {
+        //유사도 입력받음
+        for (int i = 0; i < n - 1; i++) {
             st = new StringTokenizer(br.readLine());
             int p = Integer.parseInt(st.nextToken());
             int q = Integer.parseInt(st.nextToken());
@@ -32,15 +34,24 @@ public class Main_15591_mootube_silver {
             adjlist[q].add(new int[]{p, usado});
         }
 
-        for (int i = 0; i <q; i++) {
-            ans= 0;
+
+        for (int i = 0; i < q; i++) {
+            //ans, visited 초기화
+            ans = 0;
             Arrays.fill(visited, false);
+
+            //k,v 입력
             st = new StringTokenizer(br.readLine());
-            k= Integer.parseInt(st.nextToken());
-            v= Integer.parseInt(st.nextToken());
+            k = Integer.parseInt(st.nextToken());
+            v = Integer.parseInt(st.nextToken());
+
             dfs(v, Integer.MAX_VALUE);
-            System.out.println(ans);
+
+            sb.append(ans + "\n");
+
         }
+
+        System.out.println(sb);
 
     }
 
@@ -48,12 +59,14 @@ public class Main_15591_mootube_silver {
         visited[video] = true;
 
         //현재 동영상에서 갈 수 있는 동영상
-        for (int[] v :adjlist[video]) {
+        for (int[] v : adjlist[video]) {
 
             if (!visited[v[0]]) {
-                if (Math.min(usado, v[1]) >=k) {
+                //유사도가 k보다 작으면 더이상 탐색하지 x
+                int usadoV = Math.min(usado, v[1]);
+                if (usadoV >= k) {
                     ans++;
-                    dfs(v[0], Math.min(usado, v[1]));
+                    dfs(v[0], usadoV);
                 }
             }
         }
