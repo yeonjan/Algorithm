@@ -26,29 +26,32 @@ public class Main_1920_수찾기 {
         Arrays.sort(a);
 
         int m = Integer.parseInt(br.readLine());
+
         st = new StringTokenizer(br.readLine());
+
         for (int i = 0; i < m; i++) {
-            if (binarySearch(Integer.parseInt(st.nextToken()))) sb.append("1");
+            //if (binarySearch(Integer.parseInt(st.nextToken())) >= 0) sb.append("1");
+            if (Arrays.binarySearch(a, Integer.parseInt(st.nextToken())) >= 0) sb.append("1");
             else sb.append("0");
             sb.append("\n");
         }
         System.out.println(sb);
     }
 
-    public static boolean binarySearch(int num) {
+    public static int binarySearch(int num) {
         int start = 0, end = n - 1, mid;
         while (start <= end) {
             mid = (start + end) / 2;
 
             if (num == a[mid]) {
-                return true;
+                return mid;
             } else if (num < a[mid]) {
                 end = mid - 1;
             } else {
                 start = mid + 1;
             }
         }
-        return false;
+        return -1;
     }
 
 }
