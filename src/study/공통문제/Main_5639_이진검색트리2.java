@@ -6,7 +6,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main_5639_이진검색트리 {
+public class Main_5639_이진검색트리2 {
+
     static class Node {
         int value;
         Node left, right;
@@ -15,16 +16,6 @@ public class Main_5639_이진검색트리 {
             this.value = value;
             left = null;
             right = null;
-        }
-
-        public void insert(int n) {
-            if (n < this.value) {
-                if (this.left == null) this.left = new Node(n);
-                else this.left.insert(n);
-            } else {
-                if (this.right == null) this.right = new Node(n);
-                else this.right.insert(n);
-            }
         }
     }
 
@@ -37,7 +28,7 @@ public class Main_5639_이진검색트리 {
 
 
         while ((input = br.readLine()) != null && !input.isEmpty()) {
-            root.insert(Integer.parseInt(input));
+            insert(root, Integer.parseInt(input));
         }
 
         postOrder(root);
@@ -51,5 +42,16 @@ public class Main_5639_이진검색트리 {
         postOrder(node.left);
         postOrder(node.right);
         System.out.println(node.value);
+    }
+
+    public static void insert(Node node, int n) {
+        if (n < node.value) {
+            if (node.left == null) node.left = new Node(n);
+            else insert(node.left, n);
+        } else {
+            if (node.right == null) node.right = new Node(n);
+            else insert(node.right, n);
+        }
+
     }
 }
