@@ -24,7 +24,7 @@ public class Main_1253_좋다 {
         Arrays.sort(a);
         int cnt = 1;
         for (int i = 0; i < n; i++) {
-            if (a[i].equals(a[i + 1])) cnt++;
+            if (a[i] == a[i + 1]) cnt++;
             else {
                 for (int num1 = 0; num1 < n; num1++) {
                     if (i == num1) continue;
