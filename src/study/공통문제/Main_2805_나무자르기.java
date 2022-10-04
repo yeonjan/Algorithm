@@ -23,8 +23,7 @@ public class Main_2805_나무자르기 {
             tree[i] = Integer.parseInt(st.nextToken());
         }
 
-        Arrays.sort(tree);
-        int low = 0, high = tree[n - 1];
+        int low = 0, high = 1000000000;
 
         while (low <= high) {
             h = (low + high) / 2;
@@ -41,10 +40,8 @@ public class Main_2805_나무자르기 {
 
     public static long cut(int h) {
         long sum = 0;
-        int minTree = Arrays.binarySearch(tree, h);
-        if (minTree < 0) minTree = -(minTree + 1);
-        for (int i = minTree; i < n; i++) {
-            sum += tree[i] - h;
+        for (int i = 0; i < n; i++) {
+            sum += Math.max(0, tree[i] - h);
         }
         return sum;
 
