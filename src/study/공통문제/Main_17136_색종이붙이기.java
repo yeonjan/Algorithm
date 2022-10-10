@@ -72,15 +72,14 @@ public class Main_17136_색종이붙이기 {
     }
 
     public static boolean check(int i, int j, int size, int[][] map) {
-        int cnt = size * size;
         for (int r = i; r < i + size; r++) {
             for (int c = j; c < j + size; c++) {
                 if (r < 0 || c < 0 || r >= 10 || c >= 10) return false;
-                if (map[r][c] == 1) cnt--;
+                if (map[r][c] != 1) return false;
             }
         }
 
-        return cnt == 0;
+        return true;
     }
 }
 
