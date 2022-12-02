@@ -1,4 +1,4 @@
-package study;
+package study.공통문제;
 
 import java.io.BufferedReader;
 import java.io.IOException;
