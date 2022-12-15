@@ -3,7 +3,6 @@ package study.공통문제;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main_2281_데스노트 {
@@ -43,7 +42,7 @@ public class Main_2281_데스노트 {
                 //여백이 없다면 못쓰는 거 -> 탐색 중지
                 if (space < 0) break;
 
-                //마지막 줄인 경우
+                //마지막 이름인 경우
                 if (i == n - 1) {
                     min = 0;
                     break;
