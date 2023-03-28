@@ -62,7 +62,7 @@ public class Main_14503_로봇청소기 {
 			int dc = robot.c + delta[d][1];
 			if (canGo(dr, dc)) {
 				go(new Robot(dr, dc, robot.d));
-			} 
+			}
 		} else {//2-2. 사방에 청소x 존재
 			// -> 반시계 회전
 			int d = (4 + robot.d - 1) % 4;
