@@ -3,11 +3,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-
 public class Main {
-    static int n, m, x;
-    static int ans = 0;
-    static int[] dist;
+    static int n, m, x, ans = 0;
     static List<List<int[]>> adj = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
@@ -16,8 +13,6 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         x = Integer.parseInt(st.nextToken());
-
-        dist = new int[n + 1];
 
         for (int i = 0; i <= n; i++) {
             adj.add(new ArrayList<>());
@@ -30,55 +25,37 @@ public class Main {
             adj.get(a).add(new int[]{b, c});
         }
 
-        int[] min = new int[n + 1];
-        findDistance(min, x);
-        for (int i = 1; i <= n; i++) {
-            if (i == x) continue;
-            dist[i] += min[i];
-        }
+        int[] minX = new int[n + 1];
+        findDistance(minX, x);  // x에서 모든 정점까지의 거리
 
         for (int i = 1; i <= n; i++) {
             if (i == x) continue;
-            findDistance(min, i);
-            dist[i] += min[x];
-            ans = Math.max(ans, dist[i]);
+            int[] minI = new int[n + 1];
+            findDistance(minI, i);  // i에서 x까지의 거리
+            ans = Math.max(ans, minI[x] + minX[i]);
         }
         System.out.println(ans);
-
-
     }
 
     public static void findDistance(int[] min, int start) {
-        boolean[] visited = new boolean[n + 1];
+        Arrays.fill(min, Integer.MAX_VALUE);
         PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
-        for (int i = 1; i <= n; i++) {
-            min[i] = Integer.MAX_VALUE;
-        }
         pq.offer(new int[]{start, 0});
         min[start] = 0;
 
         while (!pq.isEmpty()) {
             int[] poll = pq.poll();
-            int v = poll[0];
-            int dist = poll[1];
-            visited[v] = true;
+            int v = poll[0], dist = poll[1];
+
+            if (dist > min[v]) continue;  // 더 짧은 경로가 이미 갱신되었으면 스킵
 
             for (int[] next : adj.get(v)) {
-                int nextV = next[0];
-                int nextDist = next[1];
-                if (visited[nextV]) continue;
-
+                int nextV = next[0], nextDist = next[1];
                 if (min[nextV] > dist + nextDist) {
                     min[nextV] = dist + nextDist;
-                    pq.offer(new int[]{nextV, dist + nextDist});
+                    pq.offer(new int[]{nextV, min[nextV]});
                 }
-
             }
-
-
         }
-
     }
-
-
 }
