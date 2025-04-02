@@ -1,14 +1,12 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 
 public class Main {
     static int MAP_SIZE = 5;
+    static Map<Integer, int[]> map = new HashMap<>();
     static int[][] delta = {{0, 1}, {1, 0}, {1, 1}};
 
 
@@ -17,13 +15,15 @@ public class Main {
         StringTokenizer st;
 
         int gameRound = 0;
-        int[][] map = new int[MAP_SIZE][MAP_SIZE];
+
         Queue<Integer> callList = new LinkedList<>();
+        boolean[][] bingoMap = new boolean[MAP_SIZE][MAP_SIZE];
 
         for (int i = 0; i < MAP_SIZE; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < MAP_SIZE; j++) {
-                map[i][j] = Integer.parseInt(st.nextToken());
+                map.put(Integer.valueOf(st.nextToken()), new int[]{i, j});
+
             }
         }
 
@@ -36,9 +36,9 @@ public class Main {
         while (!callList.isEmpty()) {
             gameRound++;
             Integer num = callList.poll();
-            callNum(num, map);
+            callNum(num, bingoMap);
 
-            if (isBingo(map)) {
+            if (isBingo(bingoMap)) {
                 break;
             }
         }
@@ -49,54 +49,42 @@ public class Main {
     }
 
 
-    public static void callNum(int num, int[][] map) {
-        for (int i = 0; i < MAP_SIZE; i++) {
-            for (int j = 0; j < MAP_SIZE; j++) {
-                if (map[i][j] == num) map[i][j] = 0;
-            }
-        }
+    public static void callNum(int num, boolean[][] bingoMap) {
+        int[] position = map.get(num);
+        bingoMap[position[0]][position[1]] = true;
     }
 
-    public static boolean isBingo(int[][] map) {
+    public static boolean isBingo(boolean[][] bingoMap) {
         int bingoCount = 0;
 
         //옆으로
-        loop:
-        for (int r = 0; r < MAP_SIZE; r++) {
-            for (int c = 0; c < MAP_SIZE; c++) {
-                if (map[r][c] != 0) continue loop;
+        boolean right = true;
+        boolean down = true;
+        boolean rightDown = true;
+        boolean leftDown = true;
+
+        for (int i = 0; i < MAP_SIZE; i++) {
+            right = true;
+            down = true;
+            for (int j = 0; j < MAP_SIZE; j++) {
+                //오른쪽
+                if (!bingoMap[i][j]) right = false;
+                //아래
+                if (!bingoMap[j][i]) down = false;
             }
-            bingoCount++;
+            //오른쪽 아래
+            if (!bingoMap[i][i]) rightDown = false;
+            //왼쪽 아래
+            if (!bingoMap[i][MAP_SIZE - i - 1]) leftDown = false;
+
+            if (right) bingoCount++;
+            if (down) bingoCount++;
         }
-        //아래로
-        loop:
-        for (int c = 0; c < MAP_SIZE; c++) {
-            for (int r = 0; r < MAP_SIZE; r++) {
-                if (map[r][c] != 0) continue loop;
-            }
-            if(c==4) System.out.println();
-            bingoCount++;
-        }
-        //오른쪽 아래
-        bingoCount++;
-        for (int idx = 0; idx < MAP_SIZE; idx++) {
-            if (map[idx][idx] != 0) {
-                bingoCount--;
-                break;
-            }
-        }
-        //왼쪽 아래
-        bingoCount++;
-        for (int idx = 0; idx < MAP_SIZE; idx++) {
-            if (map[idx][MAP_SIZE - idx - 1] != 0) {
-                bingoCount--;
-                break;
-            }
-        }
+
+        if (rightDown) bingoCount++;
+        if (leftDown) bingoCount++;
         return bingoCount >= 3;
 
     }
 
-    //call Num -> 25
-    // 빙고 check 25+25+10
 }
