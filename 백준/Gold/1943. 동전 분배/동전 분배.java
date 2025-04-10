@@ -43,10 +43,10 @@ public class Main {
         dp[0][0] = true;
 
 //        dp[i-1][0~j]까지 탐색했을 때 true -> dp[i][j*개수] true;
-
-
-        for (int j = 0; j <= sum; j++) {
-            for (int i = 1; i < coins.size(); i++) {
+        
+        //loop 순서 변경 -> 기존꺼는 중복 계산 있음
+        for (int i = 1; i < coins.size(); i++) {
+            for (int j = 0; j <= sum; j++) {
                 int[] coin = coins.get(i);
                 if (dp[i - 1][j]) {
                     for (int k = 0; k <= coin[1]; k++) {
@@ -57,9 +57,7 @@ public class Main {
 
         }
 
-        return dp[coins.size()-1 ][sum];
+        return dp[coins.size() - 1][sum];
     }
 
-
 }
-
