@@ -1,136 +1,80 @@
 import java.util.*;
 
 class Solution {
-
-    boolean[] visit;
-    int aLen;
-    Map<Integer, List<Integer>> map = new HashMap<>();
-    long[] a;
-
-    class Node {
-
-        public int v;
-        public int parentV;
-        public long cnt;
-
-        public Node(int v, int parentV, long cnt) {
-            this.v = v;
-            this.parentV = parentV;
-            this.cnt =cnt;
+    static int V;
+    static List<Integer>[] adj;
+    static List<List<Node>> tree=new ArrayList<>();
+    public class Node{
+        int idx;
+        long value;
+        int depth;
+        Node parent;
+        
+        public Node(int idx,long value,int depth,Node parent){
+            this.idx=idx;
+            this.value=value;
+            this.depth=depth;
+            this.parent=parent;
         }
     }
-
-    Integer getLeafNode(Integer currNode) {
-
-        if(!map.containsKey(currNode)) {
-            return currNode;
-        }
-
-        visit[currNode] = true;
-
-        for(Integer nextNode : map.get(currNode)) {
-            if(visit[nextNode]) {
-                continue;
-            }
-
-            Integer leafNode = getLeafNode(nextNode);
-            visit[currNode] = false;
-            return leafNode;
-        }
-
-        visit[currNode] = false;
-
-        return currNode;
-    }
-
-    void init(int[][] edges, int[] a) {
-        for(int[] edge : edges) {
-            for(int v : edge) {
-                if(!map.containsKey(v)) {
-                    map.put(v, new ArrayList<>());
-                }
-            }
-
-            int u = edge[0];
-            int v = edge[1];
-
-            map.get(u).add(v);
-            map.get(v).add(u);
-        }
-
-        this.a = new long[aLen];
-        for(int i=0; i<a.length; i++) {
-            this.a[i] = a[i];
-        }
-    }
-
-    // 스택 오버 플로우 안나는 dfs 
-    long dfs(int startV) {
-
-        Deque<Node> deque = new LinkedList<>();
-
-        Node startNode = new Node(startV, startV, 0);
-        deque.offerLast(startNode);
-
-        while(!deque.isEmpty()) {
-
-            Node currNode = deque.pollLast();
-
-            if(!visit[currNode.v]) {
-
-                visit[currNode.v] = true;
-
-                deque.offer(currNode);
-
-                List<Integer> nextVLis = map.get(currNode.v);
-
-                for(int nextV : nextVLis) {
-                    if(visit[nextV]) {
-                        continue;
-                    }
-                    Node nextNode = new Node(nextV, currNode.v, 0);
-                    deque.offerLast(nextNode);
-                }
-            } else {
-                visit[currNode.v] = false;
-
-                if(currNode.v == startV) {
-                    if(a[currNode.v] != 0) {
-                        return -1;
-                    } else {
-                        return currNode.cnt;
-                    }
-                }
-
-                if(a[currNode.v] == 0) {
-                    if(!deque.isEmpty()) {
-                        deque.peekLast().cnt += currNode.cnt;
-                    }
-                    continue;
-                }
-
-                long weight = a[currNode.v];
-                a[currNode.v] = 0;
-                a[currNode.parentV] += weight;
-                currNode.cnt += Math.abs(weight);
-
-                deque.peekLast().cnt += currNode.cnt;                
-            }
-        }
-
-        return -1;
-    }
-
+    
+    
     public long solution(int[] a, int[][] edges) {
-        long answer = -1;
-
-        this.aLen = a.length;
-        this.visit = new boolean[aLen];
-        init(edges, a);
-
-        int startNode = getLeafNode(edges[0][0]);
-        answer = dfs(startNode);
-
-        return answer;
+        long answer = -2;
+        
+        V=a.length;
+        adj=new ArrayList[V];
+        for(int i=0;i<V;i++){
+            adj[i]=new ArrayList<>();
+        }
+        
+        for(int[] edge:edges){
+            int u=edge[0];
+            int v=edge[1];
+            adj[u].add(v);
+            adj[v].add(u);
+        }
+        
+        Node root=new Node(0,Long.valueOf(a[0]),0,null);
+        setTree(root,a);
+        long cnt=getChangedCnt();
+        
+        return root.value==0?cnt:-1;
+    }
+    public void setTree(Node root,int[] a){
+        Queue<Node> queue=new LinkedList<>();
+        queue.offer(root);
+        
+        while(!queue.isEmpty()){
+            Node node=queue.poll();
+            if(tree.size()<node.depth+1){
+                tree.add(new ArrayList<>());
+            }
+            tree.get(node.depth).add(node);
+            
+            //인접 노드 탐색
+            for(int nextIdx:adj[node.idx]){
+                if(node.parent!=null&&node.parent.idx==nextIdx) continue;
+                Node nextNode=new Node(nextIdx,Long.valueOf(a[nextIdx]),node.depth+1,node);
+                queue.offer(nextNode);
+            }
+        }
+        
+    }
+    public long getChangedCnt(){
+        long total=0;
+        int maxDepth=tree.size()-1;
+        for(int i=0;i<maxDepth;i++){
+            int depth=maxDepth-i;
+            for(Node node:tree.get(depth)){
+                Node parent=node.parent;
+                parent.value+=node.value;
+                total+=Math.abs(node.value);
+                node.value=0;
+            }
+            
+            
+        }
+        return total;
     }
 }
