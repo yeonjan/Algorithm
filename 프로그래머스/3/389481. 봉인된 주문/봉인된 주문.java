@@ -18,8 +18,12 @@ class Solution {
         
         //숫자 구하기
         while(n>0){
-            n--;
-            sb.append((char)('a'+n%26));
+            long charNum=n%26;
+            if(charNum==0) {
+                sb.append('z');
+                n--;
+            }
+            else sb.append((char)('a'+charNum-1));
             n/=26;
         }
         
