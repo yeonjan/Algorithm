@@ -1,47 +1,51 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Stack;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
+        String[] str = br.readLine().split("");
+        String[] bomb = br.readLine().split("");
+        int size = bomb.length;
 
-        Stack<Character> stack = new Stack<>();
-        String input = br.readLine();
-        String bomb = br.readLine();
-
-
-        for (int i = 0; i < input.length(); i++) {
-            stack.push(input.charAt(i));
-            if (isBomb(stack, bomb)) {
-                for (int j = 0; j < bomb.length(); j++) {
+        Stack<String> stack = new Stack<>();
+        for (String s : str) {
+            stack.push(s);
+            if (stack.peek().equals(bomb[size - 1])) {
+                boolean isBomb = true;
+                int cnt = 0;
+                if (stack.size() < size) continue;
+                for (int i = size - 1; i >= 0; i--) {
+                    if (!stack.peek().equals(bomb[i])) {
+                        isBomb = false;
+                        break;
+                    }
+                    cnt++;
                     stack.pop();
+                }
+                if (!isBomb) {
+                    for (int i = cnt; i > 0; i--) {
+                        stack.push(bomb[size - i]);
+                    }
                 }
             }
         }
-
-        if (stack.isEmpty()) sb.append("FRULA");
-        else {
-            for (Character s : stack) {
-                sb.append(s);
+        if (stack.isEmpty()){
+            sb.append("FRULA");
+        }else {
+            while (!stack.isEmpty()) {
+                sb.append(stack.pop());
             }
+            sb.reverse();
         }
+
         System.out.println(sb);
+
     }
 
-    public static boolean isBomb(Stack<Character> stack, String bomb) {
-        int size = bomb.length();
 
-        if (stack.size() < bomb.length()) return false;
-
-        if (!stack.peek().equals(bomb.charAt(bomb.length() - 1))) return false;
-
-        for (int i = 0; i < size; i++) {
-            if (stack.get(stack.size() - size + i) != (bomb.charAt(i))) return false;
-        }
-
-        return true;
-    }
 }
