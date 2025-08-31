@@ -14,11 +14,6 @@ public class Main {
 
         Stack<Integer> stack = new Stack<>();
         for (int i = 0; i < n; i++) {
-            if (stack.isEmpty()) {
-                stack.push(i);
-                continue;
-            }
-
             while (!stack.isEmpty() && buildings[stack.peek()] <= buildings[i]) {
                 stack.pop();
             }
@@ -33,11 +28,6 @@ public class Main {
         stack.clear();
 
         for (int i = n - 1; i >= 0; i--) {
-            if (stack.isEmpty()) {
-                stack.push(i);
-                continue;
-            }
-
             while (!stack.isEmpty() && buildings[stack.peek()] <= buildings[i]) {
                 stack.pop();
             }
