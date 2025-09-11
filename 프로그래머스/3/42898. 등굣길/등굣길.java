@@ -10,12 +10,15 @@ class Solution {
         
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
-                if(dp[i][j]==-1) continue;
+                if(dp[i][j]==-1) {
+                    dp[i][j]=0;
+                    continue;
+                }
                 if(0<=j-1){
-                    dp[i][j]+=(dp[i][j-1]!=-1?dp[i][j-1]:0)%1000000007;
+                    dp[i][j]+=dp[i][j-1]%1000000007;
                 }
                 if(0<=i-1){
-                    dp[i][j]+=(dp[i-1][j]!=-1?dp[i-1][j]:0)%1000000007;
+                    dp[i][j]+=dp[i-1][j]%1000000007;
                 }
                 dp[i][j]%=1000000007;
                 
