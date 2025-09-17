@@ -3,31 +3,26 @@ class Solution {
     public int[] solution(int[] sequence, int k) {
         int size=sequence.length;
         int left=0;
-        int right=1;
+        int right=0;
         int sum=sequence[0];
-        int minLength=Integer.MAX_VALUE;
-        int[] ans=new int[2];
-        int cnt=0;
-        while(left<right){
+        int aLeft=0;
+        int aRight=size;
+        while(right<size){
             if(sum==k){
-                if(right-left<minLength){
-                    minLength=right-left;
-                    ans[0]=left;
-                    ans[1]=right-1;
+                if(right-left<aRight-aLeft){
+                    aLeft=left;
+                    aRight=right;
                 }
             }
             
             if(sum<k){
-                if(size==right) break;
-                sum+=sequence[right];
-                right++;
+                if(++right<size) sum+=sequence[right];
                 
             }else if(k<=sum){
-                sum-=sequence[left];
-                left++;
+                sum-=sequence[left++];
             }
         }
-        return ans;
+        return new int[]{aLeft,aRight};
     }
 
 }
