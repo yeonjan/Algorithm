@@ -3,49 +3,39 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-
 public class Main {
-    static int n;
 
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) throws NumberFormatException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
-        n = Integer.parseInt(br.readLine());
-        int count = 0;
+        // 오른쪽으로 이동하며, 높이가 처음 등장-> 스택에 넣기/ 높이가 바뀜 -> 스택에서 뺴기 count++
 
-        Stack<Integer> stack = new Stack<>();
-        stack.push(-1);
-        int max = 0;
+        int n = Integer.parseInt(br.readLine());
+        int cnt = 0;
+        int[] skyLine = new int[n + 1];
         for (int i = 0; i < n; i++) {
             String[] input = br.readLine().split(" ");
-            int x = Integer.parseInt(input[0]);
-            int y = Integer.parseInt(input[1]);
-            pq.offer(new int[]{x, y});
-            max = Math.max(max, x);
+            skyLine[i] = Integer.parseInt(input[1]);
         }
-        pq.offer(new int[]{max + 1, 0});
+        skyLine[n] = 0;
 
-        while (!pq.isEmpty()) {
-            int[] node = pq.poll();
-            int height = node[1];
-
-            if (stack.peek() < height) {
-                stack.push(height);
-            } else if(stack.peek() > height){
-                Integer lastNum = stack.pop();
-                count++;
-                while (!stack.isEmpty() && stack.peek() > height) {
-                    Integer pop = stack.pop();
-                    if (lastNum > pop) {
-                        lastNum = pop;
-                        count++;
-                    }
-                }
-                stack.push(height);
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < n + 1; i++) {
+            if (stack.isEmpty()) {
+                stack.push(skyLine[i]);
+                continue;
             }
+            while (!stack.isEmpty() && stack.peek() > skyLine[i]) {
+                cnt++;
+                stack.pop();
+            }
+            if (!stack.isEmpty() && stack.peek() == skyLine[i]) continue;
+            stack.push(skyLine[i]);
+
         }
-        System.out.println(count);
+
+        System.out.println(cnt);
 
     }
-
 }
+
