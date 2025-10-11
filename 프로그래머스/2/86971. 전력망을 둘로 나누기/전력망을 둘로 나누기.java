@@ -12,7 +12,7 @@ class Solution {
         for(int[] wire:wires){
             adj[wire[0]][wire[1]]=0;
             adj[wire[1]][wire[0]]=0;
-            ans=Math.min(ans,Math.abs(count(wire[0],n)-count(wire[1],n)));
+            ans=Math.min(ans,Math.abs(n-2*count(1,n)));
             adj[wire[0]][wire[1]]=1;
             adj[wire[1]][wire[0]]=1;
         }
