@@ -1,27 +1,35 @@
 import java.util.*;
 class Solution {
-    public long solution(int n, int[] times) {
-        Arrays.sort(times);
+    private int n;
+    private int[] times;
+    
+    public long solution(int inputN, int[] inputTimes) {
         long answer = 0;
-        long left=0;
-        long right=(long)times[times.length-1]*n;
+        n=inputN;
+        times=inputTimes;
+    
+        answer=binarySearch();
         
-        while(left+1<right){
-            long mid= (left+right)/2L;
-            long count=0;
-            
-            for(int t:times){
-                count+=mid/t;
-            }
-            
-            if(n<=count){
-                right=mid;
-            }else if (n>count){
-                left=mid;
-            }
-        }
-        
-        return right;
+        return answer;
     }
-
+    public long binarySearch(){
+        long left=0;
+        long right=n*1000000000L;
+        int cnt=0;
+        while(left<right){
+            long mid=(left+right)/2;
+            if(check(mid)) right=mid;
+            else left=mid+1;
+        }
+        return left;
+    
+    }
+    public boolean check(long num){
+        long cnt=0;
+        for(int time:times){
+            cnt+=num/time;
+        }
+        if(cnt<n) return false;
+        else return true;
+    }
 }
